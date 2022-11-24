@@ -13,10 +13,12 @@ namespace LostArkLogger
             if (obj == null) return null;
             using (var memoryStream = new MemoryStream())
             {
+                #pragma warning disable SYSLIB0011
                 var binaryFormatter = new BinaryFormatter();
                 binaryFormatter.Serialize(memoryStream, obj);
                 var compressed = Compress(memoryStream.ToArray());
                 return compressed;
+                #pragma warning restore SYSLIB0011
             }
         }
 
@@ -24,11 +26,13 @@ namespace LostArkLogger
         {
             using (var memoryStream = new MemoryStream())
             {
+                #pragma warning disable SYSLIB0011
                 var binaryFormatter = new BinaryFormatter();
                 var decompressed = Decompress(arrBytes);
                 memoryStream.Write(decompressed, 0, decompressed.Length);
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 return binaryFormatter.Deserialize(memoryStream);
+                #pragma warning restore SYSLIB0011
             }
         }
 
