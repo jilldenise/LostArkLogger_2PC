@@ -9,7 +9,7 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using IronSnappy;
 namespace LostArkLogger
 {
     internal class Parser : IDisposable
@@ -318,8 +318,7 @@ namespace LostArkLogger
                             payload = buffer.Take(result).Skip(16).ToArray();
                             break;
                         case 2: //Snappy
-                                //https://github.com/robertvazan/snappy.net
-                            payload = Snappy.SnappyCodec.Uncompress(payload.ToArray()).Skip(16).ToArray();
+                            payload = Snappy.Decode(payload.ToArray()).Skip(16).ToArray();
                             //payload = SnappyCodec.Uncompress(payload.Skip(Properties.Settings.Default.Region == Region.Russia ? 4 : 0).ToArray()).Skip(16).ToArray();
                             break;
                         case 3: //Oodle

@@ -3,13 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LostArkLogger", "LostArkLogger\LostArkLogger.csproj", "{B0808A8B-3ADC-4BB1-8927-5BCB9A519131}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LostArkLogger", "LostArkLogger\LostArkLogger.csproj", "{B0808A8B-3ADC-4BB1-8927-5BCB9A519131}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachinaNetFramework", "MachinaNetFramework\MachinaNetFramework.csproj", "{E463D199-BA11-4B7A-A342-DD1916F8C771}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crc32C.NET", "robertvazan\Crc32C.NET.csproj", "{97195552-FA93-4788-AE15-4973BD655E55}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snappy.NET", "robertvazan\Snappy.NET.csproj", "{F8FAF539-E365-4995-A695-499BA4AD31DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MachinaNetFramework", "MachinaNetFramework\MachinaNetFramework.csproj", "{E463D199-BA11-4B7A-A342-DD1916F8C771}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +21,6 @@ Global
 		{E463D199-BA11-4B7A-A342-DD1916F8C771}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E463D199-BA11-4B7A-A342-DD1916F8C771}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E463D199-BA11-4B7A-A342-DD1916F8C771}.Release|Any CPU.Build.0 = Release|Any CPU
-		{97195552-FA93-4788-AE15-4973BD655E55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97195552-FA93-4788-AE15-4973BD655E55}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97195552-FA93-4788-AE15-4973BD655E55}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97195552-FA93-4788-AE15-4973BD655E55}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8FAF539-E365-4995-A695-499BA4AD31DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8FAF539-E365-4995-A695-499BA4AD31DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8FAF539-E365-4995-A695-499BA4AD31DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8FAF539-E365-4995-A695-499BA4AD31DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
