@@ -59,9 +59,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MachinaNetFramework\MachinaNetFramework.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Remove="GUI\Overlay.resx" />
   </ItemGroup>
 </Project>
