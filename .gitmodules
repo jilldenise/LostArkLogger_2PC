@@ -1,3 +1,6 @@
-[submodule "machina"]
-	path = machina
-	url = https://github.com/ravahn/machina
+[submodule "crc32c"]
+	path = crc32c
+	url = https://github.com/robertvazan/crc32c.net
+[submodule "snapptynet"]
+	path = snapptynet
+	url = https://github.com/robertvazan/snappy.net
