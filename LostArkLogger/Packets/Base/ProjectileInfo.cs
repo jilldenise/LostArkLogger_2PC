@@ -34,5 +34,6 @@ namespace LostArkLogger
         public Byte b_2;
         public Byte b_3;
         public Byte b_4;
+        public Byte b_5;
     }
 }
