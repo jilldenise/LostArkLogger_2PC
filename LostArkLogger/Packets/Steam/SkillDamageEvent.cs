@@ -16,7 +16,6 @@ namespace LostArkLogger
             TargetId = reader.ReadUInt64();
             Damage = reader.ReadPackedInt();
             b_0 = reader.ReadByte();
-            
         }
     }
 }

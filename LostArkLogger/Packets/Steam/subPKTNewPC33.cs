@@ -12,7 +12,6 @@ namespace LostArkLogger
             b_0 = reader.ReadByte();
             if (b_0 == 1)
                 bytearray_1 = reader.ReadBytes(12);
-            
         }
     }
 }

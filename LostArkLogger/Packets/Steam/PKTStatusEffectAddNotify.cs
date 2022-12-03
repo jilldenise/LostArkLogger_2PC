@@ -13,7 +13,6 @@ namespace LostArkLogger
             New = reader.ReadByte();
             u64_1 = reader.ReadUInt64();
             statusEffectData = reader.Read<StatusEffectData>();
-            
         }
     }
 }

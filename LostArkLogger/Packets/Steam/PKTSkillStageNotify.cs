@@ -13,7 +13,6 @@ namespace LostArkLogger
             SourceId = reader.ReadUInt64();
             reader.Skip(4);
             SkillId = reader.ReadUInt32();
-
         }
     }
 }

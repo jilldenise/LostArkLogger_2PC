@@ -13,11 +13,6 @@ namespace LostArkLogger
             ObjectId = reader.ReadUInt64();
             b_1 = reader.ReadByte();
             StatPairChangedList = reader.Read<StatPair>();
-
-
-            //var b_2 = reader.ReadByte();
-            
-            //var b_3 = reader.ReadByte();
         }
     }
 }

@@ -15,11 +15,6 @@ namespace LostArkLogger
             b_0 = reader.ReadByte();
             u16_2 = reader.ReadUInt16();
             flag_0 = reader.ReadFlag();
-
-
-
-
-
         }
     }
 }

@@ -16,8 +16,6 @@ namespace LostArkLogger
             u16list_0 = reader.ReadList<UInt16>();
             s64_0 = reader.ReadSimpleInt();
             subPKTInitEnv8 = reader.Read<subPKTInitEnv8>();
-            
-            
         }
     }
 }

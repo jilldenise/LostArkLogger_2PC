@@ -68,14 +68,6 @@ namespace LostArkLogger
             u32_10 = reader.ReadUInt32();
             u16_5 = reader.ReadUInt16();
             u64_4 = reader.ReadUInt64();
-            //
-
-
-            
-     
-            
-
-            
         }
     }
 }

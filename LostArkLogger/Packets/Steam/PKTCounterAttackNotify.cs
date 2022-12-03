@@ -12,7 +12,6 @@ namespace LostArkLogger
             TargetId = reader.ReadUInt64();
             Type = reader.ReadUInt32();
             reader.Skip(1);
-
         }
     }
 }

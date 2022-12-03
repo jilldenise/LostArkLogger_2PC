@@ -75,33 +75,6 @@ namespace LostArkLogger
             b_6 = reader.ReadByte();
             if (b_6 == 1)
                 u32_3 = reader.ReadUInt32();
-
-
-
-
-
-
-
-
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-            
-            
-            
-            
-            
-            
-            
-            
         }
     }
 }

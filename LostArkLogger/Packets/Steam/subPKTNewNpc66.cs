@@ -14,12 +14,6 @@ namespace LostArkLogger
             subPKTNewNpc5 = reader.Read<subPKTNewNpc5>();
             itemInfos = reader.ReadList<ItemInfo>();
             b_0 = reader.ReadByte();
-
-
-            
-            
-            
-            
         }
     }
 }

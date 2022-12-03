@@ -15,7 +15,6 @@ namespace LostArkLogger
             s64_0 = reader.ReadSimpleInt();
             bytearraylist_0 = reader.ReadList<Byte[]>(14);
             Level = reader.ReadUInt16();
-            
         }
     }
 }

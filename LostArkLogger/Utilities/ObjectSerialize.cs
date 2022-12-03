@@ -14,7 +14,9 @@ namespace LostArkLogger
             using (var memoryStream = new MemoryStream())
             {
                 var binaryFormatter = new BinaryFormatter();
+                #pragma warning disable SYSLIB0011 // Type or member is obsolete
                 binaryFormatter.Serialize(memoryStream, obj);
+                #pragma warning restore SYSLIB0011 // Type or member is obsolete
                 var compressed = Compress(memoryStream.ToArray());
                 return compressed;
             }
@@ -28,7 +30,9 @@ namespace LostArkLogger
                 var decompressed = Decompress(arrBytes);
                 memoryStream.Write(decompressed, 0, decompressed.Length);
                 memoryStream.Seek(0, SeekOrigin.Begin);
+                #pragma warning disable SYSLIB0011 // Type or member is obsolete
                 return binaryFormatter.Deserialize(memoryStream);
+                #pragma warning restore SYSLIB0011 // Type or member is obsolete
             }
         }
 
