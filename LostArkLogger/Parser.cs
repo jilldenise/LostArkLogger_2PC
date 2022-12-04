@@ -267,7 +267,7 @@ namespace LostArkLogger
             if (Properties.Settings.Default.Region == Region.Korea) opCodeString = ((OpCodes_Korea)opcodeVal).ToString();
             return (OpCodes)Enum.Parse(typeof(OpCodes), opCodeString);
         }
-        Byte[] XorTableSteam = Convert.FromBase64String("DgZIHKcHjzVicTApEJcqhC+gJuv5g3PkLCf8Lal73VYgnLKAOs3naIrwmZMaXmPgxDZHSSJglln0HUXWdmaFF5gC3Au30+UZIQ+HuFJTfTu+d3r4EhhfKEKQ3mujoa3Hq2cuxQzjaiSdwzEr/goBtEDVOcAz8kOfWhYFzIFlnkG6T29GTO+JjdHpTjf6fPvxpZJYctu7vKhKRBvZOOyCynjOrG3hpO31royR/SPzoj3IcFGmvcuOA9h1BLZs9+KGHh/UvxX/te5+r88lCN/Jwohu9lez6kvBAGkNmuaxuT8T6FuVMlSbsFA+xmFdXNo8eQnSf3Rk1xSUqjRNEYtV0A==");
+        Byte[] XorTableSteam = ObjectSerialize.Decompress(Properties.Resources.xor_Steam);
         //Byte[] XorTableRu = ObjectSerialize.Decompress(Properties.Resources.xor_ru);
         Byte[] XorTableKorea = ObjectSerialize.Decompress(Properties.Resources.xor_Korea);
         Byte[] XorTable { get { return Properties.Settings.Default.Region == Region.Steam ? XorTableSteam : XorTableKorea; } }

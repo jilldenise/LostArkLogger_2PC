@@ -21,7 +21,6 @@ namespace LostArkLogger
             StatusEffectId = reader.ReadUInt32();
             EffectInstanceId = reader.ReadUInt32();
             s64_0 = reader.ReadSimpleInt();
-            
         }
     }
 }

@@ -21,15 +21,6 @@ namespace LostArkLogger
             b_4 = reader.ReadByte();
             if (b_4 == 1)
                 u32_0 = reader.ReadUInt32();
-            //  
-
-
-
-            
-            
-            
-            
-            
         }
     }
 }

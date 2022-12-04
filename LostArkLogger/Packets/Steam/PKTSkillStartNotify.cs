@@ -24,8 +24,6 @@ namespace LostArkLogger
             u64_1 = reader.ReadUInt64();
             u64_0 = reader.ReadUInt64();
             b_2 = reader.ReadByte();
-
-
         }
     }
 }

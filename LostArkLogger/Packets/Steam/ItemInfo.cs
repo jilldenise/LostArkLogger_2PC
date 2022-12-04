@@ -6,7 +6,6 @@ namespace LostArkLogger
     {
         public void SteamDecode(BitReader reader)
         {
-
             u16_0 = reader.ReadUInt16();
             b_0 = reader.ReadByte();
             if (b_0 == 1)
@@ -15,7 +14,6 @@ namespace LostArkLogger
             s64_0 = reader.ReadSimpleInt();
             bytearraylist_0 = reader.ReadList<Byte[]>(14);
             Level = reader.ReadUInt16();
-            
         }
     }
 }
