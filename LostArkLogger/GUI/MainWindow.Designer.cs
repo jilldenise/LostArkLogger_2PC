@@ -91,7 +91,7 @@
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(89, 49);
             this.versionLabel.TabIndex = 10;
-            this.versionLabel.Text = "2022.10.28\r\n(not tested)";
+            this.versionLabel.Text = "2022.12.01";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.versionLabel.Click += new System.EventHandler(this.versionLabel_Click);
             // 
