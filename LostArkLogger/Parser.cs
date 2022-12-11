@@ -17,6 +17,7 @@ namespace LostArkLogger
 #pragma warning disable CA2101 // Specify marshaling for P/Invoke string arguments
         [DllImport("wpcap.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)] static extern IntPtr pcap_strerror(int err);
 #pragma warning restore CA2101 // Specify marshaling for P/Invoke string arguments
+        Machina.TCPNetworkMonitor tcp;
         ILiveDevice pcap;
         public event Action<LogInfo> onCombatEvent;
         public event Action onNewZone;
@@ -24,6 +25,7 @@ namespace LostArkLogger
         public event Action<int> onPacketTotalCount;
         public bool use_npcap = true;
         private object lockPacketProcessing = new object(); // needed to synchronize UI swapping devices
+        public Machina.Infrastructure.NetworkMonitorType? monitorType = null;
         public List<Encounter> Encounters = new List<Encounter>();
         public Encounter currentEncounter = new Encounter();
         private System.Collections.Concurrent.ConcurrentDictionary<ulong, UInt64[]> entityElapsedTimeDict = new System.Collections.Concurrent.ConcurrentDictionary<ulong, UInt64[]>();
@@ -137,6 +139,15 @@ namespace LostArkLogger
                     {
                         pcap = null;
                     }
+                }
+                if (use_npcap == false)
+                {
+                    // Always fall back to rawsockets
+                    tcp = new Machina.TCPNetworkMonitor();
+                    tcp.Config.WindowClass = "EFLaunchUnrealUWindowsClient";
+                    monitorType = tcp.Config.MonitorType = Machina.Infrastructure.NetworkMonitorType.RawSocket;
+                    tcp.DataReceivedEventHandler += (Machina.Infrastructure.TCPConnection connection, byte[] data) => Device_OnPacketArrival_machina(connection, data);
+                    tcp.Start();
                 }
             }
         }
@@ -782,6 +793,34 @@ namespace LostArkLogger
         UInt32 currentIpAddr = 0xdeadbeef;
         int loggedPacketCount = 0;
 
+        void Device_OnPacketArrival_machina(Machina.Infrastructure.TCPConnection connection, byte[] bytes)
+        {
+            if (tcp == null) return; // To avoid any late delegate calls causing state issues when listener uninstalled
+            lock (lockPacketProcessing)
+            {
+                if (connection.RemotePort != 6040) return;
+                var srcAddr = connection.RemoteIP;
+                if (srcAddr != currentIpAddr)
+                {
+                    if (currentIpAddr == 0xdeadbeef || (bytes.Length > 4 && GetOpCode(bytes) == OpCodes.PKTAuthTokenResult && bytes[0] == 0x1e))
+                    {
+                        beforeNewZone?.Invoke();
+                        onNewZone?.Invoke();
+                        currentIpAddr = srcAddr;
+                    }
+                    else return;
+                }
+                Logger.DoDebugLog(bytes);
+                try
+                {
+                    ProcessPacket(bytes.ToList());
+                }
+                catch (Exception e)
+                {
+                    // Console.WriteLine("Failure during processing of packet: " + e);
+                }
+            }
+        }
         void Device_OnPacketArrival_pcap(object sender, PacketCapture evt)
         {
             if (pcap == null) return;

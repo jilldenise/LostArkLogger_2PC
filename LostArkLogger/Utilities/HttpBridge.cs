@@ -60,7 +60,7 @@ namespace LostArkLogger
             //    }
             //}
 
-            sniffer.use_npcap = true;
+            sniffer.use_npcap = Properties.Settings.Default.Npcap;
             sniffer.isConsoleMode = true;
             sniffer.startParse(nicName);
 

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LostArkLogger", "LostArkLogger\LostArkLogger.csproj", "{B0808A8B-3ADC-4BB1-8927-5BCB9A519131}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MachinaNetFramework", "MachinaNetFramework\MachinaNetFramework.csproj", "{89E7862C-5010-4474-A992-79DFDFE2C2D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B0808A8B-3ADC-4BB1-8927-5BCB9A519131}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0808A8B-3ADC-4BB1-8927-5BCB9A519131}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0808A8B-3ADC-4BB1-8927-5BCB9A519131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89E7862C-5010-4474-A992-79DFDFE2C2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89E7862C-5010-4474-A992-79DFDFE2C2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89E7862C-5010-4474-A992-79DFDFE2C2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89E7862C-5010-4474-A992-79DFDFE2C2D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

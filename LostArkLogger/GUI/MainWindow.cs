@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Reflection.Emit;
 using System.Windows.Forms;
 
 namespace LostArkLogger
@@ -37,6 +38,7 @@ namespace LostArkLogger
             loggedPacketCountLabel.Text = "Packets: 0";
             //loggedPacketCountLabel.DataBindings.Add("Text", this, nameof(PacketCount));
             displayName.Checked = Properties.Settings.Default.DisplayNames;
+            is2PC.Checked = Properties.Settings.Default.Npcap;
             displayName.CheckedChanged += new EventHandler(displayName_CheckedChanged);
             //sniffModeCheckbox.Checked = Properties.Settings.Default.Npcap;
             this.FormClosed += new FormClosedEventHandler(form_CloseAll);
@@ -173,75 +175,7 @@ namespace LostArkLogger
 
         private void nicListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            hideControl(nicListBox);
-            hideControl(regionSelector);
-            if (startArgs != null && startArgs.Length != 0)
-            {
-                this.Visible = false;
-                httpBridge = new HttpBridge();
-                httpBridge.args = startArgs;
-                httpBridge.Start(nicListBox.SelectedItem.ToString());
-            } else
-            {
-                sniffer = new Parser();
-                sniffer.isFirstPC = isFirstPC;
-                sniffer.onPacketTotalCount += (int totalPacketCount) =>
-                {
-                    _packetCount = totalPacketCount;
-                };
-                overlay = new Overlay();
-                overlay.Show();
-                string[] overlayStartinfo = Properties.Settings.Default.OverlayStartInfo.Split('|');
-                bool overlayErr = false;
-                try
-                {
-                    if (overlayStartinfo?.Length == 4)
-                    {
-                        overlay.Location = new System.Drawing.Point(int.Parse(overlayStartinfo[2]), int.Parse(overlayStartinfo[3]));
-                        overlay.Size = new System.Drawing.Size(int.Parse(overlayStartinfo[0]), int.Parse(overlayStartinfo[1]));
-                        cb_saveOverlayInfo.Checked = true;
-                    }
-                    else {
-                        Properties.Settings.Default.OverlayStartInfo = "";
-                        Properties.Settings.Default.Save();
-                        overlayErr = true;
-                    }
-                } catch(Exception) { overlayErr = true; }
-
-                if (overlayErr == true) {
-                    if (Properties.Settings.Default.OverlayPos_Right == true)
-                    {
-                        overlay.Location = new System.Drawing.Point(Screen.PrimaryScreen.Bounds.Width / 2, 0);
-                    }
-                    else
-                    {
-                        overlay.Location = new System.Drawing.Point(0, 0);
-                    }
-                    overlay.Size = new System.Drawing.Size(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height);
-                } 
-                sniffer.startParse(nicListBox.SelectedItem.ToString());
-                overlay.AddSniffer(sniffer);
-                overlay.getHP = sniffer.getLatestEntityHPInfo;
-                overlay.getElapsedTime = sniffer.getLatestEntityElapsedTime;
-
-                showControl(addBgColor);
-                cbox_lockNic.Text = "Use Current NIC/Region setting\n(" + regionSelector.SelectedItem.ToString() + " / " + nicListBox.SelectedItem.ToString() + ")";
-                showControl(cbox_lockNic);
-                lblSetBGColor.ForeColor = Properties.Settings.Default.BackgroundColor;
-                showControl(lblSetBGColor);
-                showControl(cb_saveOverlayInfo);
-                settingSyncRadio(Properties.Settings.Default.ElapsedTimeType, new RadioButton[] { radioButton1, radioButton2, radioButton3 });
-                showControl(radioButton1);
-                showControl(radioButton2);
-                showControl(radioButton3);
-                settingSync(Properties.Settings.Default.LogEnabled, cboxEnableLogger);
-                showControl(cboxEnableLogger);
-                showControl(versionLabel);
-                showControl(debugLog);//when disable console mode
-                showControl(button1);//same
-                showControl(button2);//same
-                timer1.Enabled = true;
-            }
+            InitializeParser(nicListBox.SelectedItem.ToString());
         }
 
         private void addBgColor_CheckedChanged(object sender, EventArgs e)
@@ -358,6 +292,138 @@ namespace LostArkLogger
 
         private void button1_Click(object sender, EventArgs e)
         {
+        }
+
+        private void is2PC_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Npcap = is2PC.Checked;
+            Properties.Settings.Default.Save();
+
+            if (Properties.Settings.Default.Npcap == true)
+            {
+
+                if (Properties.Settings.Default.LockedNICname.Length > 0 &&
+                    Properties.Settings.Default.LockedRegionName.Length > 0)
+                {
+                    hideControl(regionSelector);
+                    hideControl(nicListBox);
+                    showControl(cbox_lockNic);
+                    regionSelector.SelectedItem = Properties.Settings.Default.LockedRegionName;
+                    nicListBox.SelectedItem = Properties.Settings.Default.LockedNICname;
+                    settingSync(true, cbox_lockNic);
+                    InitializeParser(nicListBox.SelectedItem.ToString());
+                }
+                else
+                {
+                    showControl(regionSelector);
+                    showControl(nicListBox);
+                    hideControl(cbox_lockNic);
+                    regionSelector.SelectedItem = Properties.Settings.Default.LockedRegionName;
+                    nicListBox.SelectedItem = Properties.Settings.Default.LockedNICname;
+                }
+            }
+            else
+            {
+                hideControl(regionSelector);
+                hideControl(nicListBox);
+                hideControl(cbox_lockNic);
+                (var region, var installedVersion) = VersionCheck.GetLostArkVersion();
+                if (installedVersion == null)
+                {
+                    Properties.Settings.Default.Npcap = true;
+                    Properties.Settings.Default.Save();
+                    MessageBox.Show("Launch Lost Ark before launching logger if you want DPS meter to work.", "Lost Ark Not Running", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    Environment.Exit(10);
+                }
+                else
+                {
+                    InitializeParser("none");
+                }
+                
+            }
+
+        }
+
+        private void InitializeParser(string nicName)
+        {
+            hideControl(nicListBox);
+            hideControl(regionSelector);
+            if (startArgs != null && startArgs.Length != 0)
+            {
+                this.Visible = false;
+                httpBridge = new HttpBridge();
+                httpBridge.args = startArgs;
+                httpBridge.Start(nicName);
+            }
+            else
+            {
+                sniffer = new Parser();
+                sniffer.isFirstPC = isFirstPC;
+                sniffer.onPacketTotalCount += (int totalPacketCount) =>
+                {
+                    _packetCount = totalPacketCount;
+                };
+                overlay = new Overlay();
+                overlay.Show();
+                string[] overlayStartinfo = Properties.Settings.Default.OverlayStartInfo.Split('|');
+                bool overlayErr = false;
+                try
+                {
+                    if (overlayStartinfo?.Length == 4)
+                    {
+                        overlay.Location = new System.Drawing.Point(int.Parse(overlayStartinfo[2]), int.Parse(overlayStartinfo[3]));
+                        overlay.Size = new System.Drawing.Size(int.Parse(overlayStartinfo[0]), int.Parse(overlayStartinfo[1]));
+                        cb_saveOverlayInfo.Checked = true;
+                    }
+                    else
+                    {
+                        Properties.Settings.Default.OverlayStartInfo = "";
+                        Properties.Settings.Default.Save();
+                        overlayErr = true;
+                    }
+                }
+                catch (Exception) { overlayErr = true; }
+
+                if (overlayErr == true)
+                {
+                    if (Properties.Settings.Default.OverlayPos_Right == true)
+                    {
+                        overlay.Location = new System.Drawing.Point(Screen.PrimaryScreen.Bounds.Width / 2, 0);
+                    }
+                    else
+                    {
+                        overlay.Location = new System.Drawing.Point(0, 0);
+                    }
+                    overlay.Size = new System.Drawing.Size(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height);
+                }
+                sniffer.use_npcap = Properties.Settings.Default.Npcap;
+                sniffer.startParse(nicName);
+                overlay.AddSniffer(sniffer);
+                overlay.getHP = sniffer.getLatestEntityHPInfo;
+                overlay.getElapsedTime = sniffer.getLatestEntityElapsedTime;
+
+                showControl(addBgColor);
+                if (Properties.Settings.Default.Npcap == true)
+                {
+                    cbox_lockNic.Text = "Use Current NIC/Region setting\n(" + regionSelector.SelectedItem.ToString() + " / " + nicListBox.SelectedItem.ToString() + ")";
+                    showControl(cbox_lockNic);
+                }
+                
+                lblSetBGColor.ForeColor = Properties.Settings.Default.BackgroundColor;
+                showControl(lblSetBGColor);
+                showControl(cb_saveOverlayInfo);
+                settingSyncRadio(Properties.Settings.Default.ElapsedTimeType, new RadioButton[] { radioButton1, radioButton2, radioButton3 });
+                showControl(radioButton1);
+                showControl(radioButton2);
+                showControl(radioButton3);
+                settingSync(Properties.Settings.Default.LogEnabled, cboxEnableLogger);
+                showControl(cboxEnableLogger);
+                showControl(versionLabel);
+                showControl(debugLog);//when disable console mode
+                showControl(button1);//same
+                showControl(button2);//same
+                timer1.Enabled = true;
+            }
         }
     }
 }
