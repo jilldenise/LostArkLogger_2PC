@@ -74,7 +74,7 @@ namespace LostArkLogger.GUI
                     string fname = AppDomain.CurrentDomain.FriendlyName;
                     for (int i = 0; i < fi.Length; i++)
                     {
-                        if (fi[i].Name == AppDomain.CurrentDomain.FriendlyName) meterFound = true;
+                        if (fi[i].Name == (AppDomain.CurrentDomain.FriendlyName + ".exe")) meterFound = true;
                         if (fi[i].Name == oo2Name) oo2Found = true;
                     }
                     if (!oo2Found)
@@ -96,14 +96,14 @@ namespace LostArkLogger.GUI
                     if (originalFileFound == false)
                     {
                         File.Move(binaryPath + binaryName, binaryPath + binaryName + ".original");
-                        File.Copy(curPath + AppDomain.CurrentDomain.FriendlyName, binaryPath + binaryName);
+                        File.Copy(curPath + AppDomain.CurrentDomain.FriendlyName + ".exe", binaryPath + binaryName);
                         if (!File.Exists(path + oo2Name)) File.Copy(curPath + oo2Name, path + oo2Name);
                         if (!File.Exists(binaryPath + oo2Name)) File.Copy(curPath + oo2Name, binaryPath + oo2Name);
                     }
                     else//patch new meter only
                     {
                         File.Delete(binaryPath + binaryName);
-                        File.Copy(curPath + AppDomain.CurrentDomain.FriendlyName, binaryPath + binaryName);
+                        File.Copy(curPath + AppDomain.CurrentDomain.FriendlyName + ".exe", binaryPath + binaryName);
                         if (!File.Exists(path + oo2Name)) File.Copy(curPath + oo2Name, path + oo2Name);
                         if (!File.Exists(binaryPath + oo2Name)) File.Copy(curPath + oo2Name, binaryPath + oo2Name);
                         MessageBox.Show("overwrited loa-details binary to current binary.");
