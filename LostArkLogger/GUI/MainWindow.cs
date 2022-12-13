@@ -305,9 +305,6 @@ namespace LostArkLogger
                 if (Properties.Settings.Default.LockedNICname.Length > 0 &&
                     Properties.Settings.Default.LockedRegionName.Length > 0)
                 {
-                    hideControl(regionSelector);
-                    hideControl(nicListBox);
-                    showControl(cbox_lockNic);
                     regionSelector.SelectedItem = Properties.Settings.Default.LockedRegionName;
                     nicListBox.SelectedItem = Properties.Settings.Default.LockedNICname;
                     settingSync(true, cbox_lockNic);
@@ -324,8 +321,6 @@ namespace LostArkLogger
             }
             else
             {
-                hideControl(regionSelector);
-                hideControl(nicListBox);
                 hideControl(cbox_lockNic);
                 (var region, var installedVersion) = VersionCheck.GetLostArkVersion();
                 if (installedVersion == null)
