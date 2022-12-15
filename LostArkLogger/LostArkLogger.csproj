@@ -34,6 +34,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Include="Resources\*" />
