@@ -11,6 +11,7 @@ namespace LostArkLogger
         }
         public String Name;
         public UInt64 PlayerId;
+        public UInt64 CharacterId;
         public UInt32 GearLevel;
         public UInt16 ClassId;
         public UInt16 Level;
