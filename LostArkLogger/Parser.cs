@@ -310,8 +310,10 @@ namespace LostArkLogger
                     fragmentedPacket = packets;
                     return;
                 }
+                bool isXor = BitConverter.ToBoolean(packets, 5);
                 var payload = packets.Skip(6).Take(packetSize - 6).ToArray();
-                Xor.Cipher(payload, BitConverter.ToUInt16(packets, 2), XorTable);
+                if (isXor)
+                    Xor.Cipher(payload, BitConverter.ToUInt16(packets, 2), XorTable);
                 try
                 {
                     switch (packets[4])
